@@ -1,0 +1,63 @@
+<!doctype html>
+<!-- THROWAWAY UI PROTOTYPE. Three variants of the discount-cards home screen, switchable via ?variant=A|B|C. -->
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Прототип — Скидочные карты</title>
+  <style>
+    :root { --ink:#17231d; --paper:#f7f7f2; --muted:#68736c; --line:#dde3da; --lime:#c8f04b; --dark:#1f3026; }
+    * { box-sizing:border-box } body { margin:0; background:#e6e9e3; color:var(--ink); font:16px/1.35 Inter,system-ui,sans-serif }
+    .phone { width:min(100%,430px); min-height:100vh; margin:auto; padding:26px 20px 104px; background:var(--paper); overflow:hidden }
+    button { font:inherit; cursor:pointer } .muted { color:var(--muted) } .eyebrow { font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase }
+    .top { display:flex; justify-content:space-between; align-items:center; margin-bottom:25px } .icon { border:0; border-radius:50%; width:42px; height:42px; background:#e7ece5; font-size:19px }
+    .card { position:relative; border-radius:22px; padding:18px; box-shadow:0 7px 18px #17231d12; overflow:hidden } .card h3,.card p { margin:0 }
+    .logo { display:grid; place-items:center; width:43px; height:43px; border-radius:14px; background:#fff; font-weight:800; box-shadow:0 2px 6px #0002 }
+    .card-head { display:flex; align-items:center; gap:12px } .heart { margin-left:auto; color:#e44961; font-size:23px } .code { margin-top:28px; font-family:ui-monospace,monospace; letter-spacing:.12em; font-size:18px }
+    .barcode { height:28px; margin-top:12px; background:repeating-linear-gradient(90deg,#17231d 0 2px,transparent 2px 4px,#17231d 4px 5px,transparent 5px 8px); opacity:.75 }
+    .row { display:flex; gap:12px; align-items:center } .spacer { flex:1 } .section { margin-top:29px } .section-title { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px }
+    .small { font-size:13px } .add { position:fixed; left:50%; bottom:22px; transform:translateX(-50%); border:0; color:#17231d; background:var(--lime); padding:15px 21px; border-radius:999px; box-shadow:0 8px 22px #17231d35; font-weight:800 }
+    /* Variant A — scanner-first, tactile cards */
+    .a h1 { font-size:32px; letter-spacing:-.05em; margin:4px 0 }.scan { background:var(--dark); color:#fff; border-radius:25px; padding:19px; display:flex; align-items:center; gap:15px }
+    .scan-mark { border:2px solid var(--lime); width:47px; height:47px; border-radius:13px; display:grid; place-items:center; color:var(--lime); font-size:23px }.scan strong { display:block }.a .card { margin:12px 0 }
+    .a .near { background:#eeeae0 }.a .favourite { background:#bee951 }.a .tag { display:inline-block; margin-top:13px; border-radius:99px; padding:5px 9px; background:#ffffffa8; font-size:12px }
+    /* Variant B — visual wallet */
+    .b { background:#fbf9ff }.b h1 { font-size:28px; margin:0 }.wallet { display:grid; grid-template-columns:1fr 1fr; gap:13px }.wallet .card { min-height:193px; padding:15px; color:#fff }
+    .wallet .card:nth-child(1) { background:linear-gradient(145deg,#7148ed,#4729a7) }.wallet .card:nth-child(2) { background:linear-gradient(145deg,#eb6058,#ae2531) }.wallet .card:nth-child(3) { background:linear-gradient(145deg,#168690,#12545e) }.wallet .card:nth-child(4) { background:#303441 }
+    .wallet .logo { width:35px; height:35px; border-radius:11px; color:var(--ink) }.wallet .code { margin-top:35px; font-size:13px }.wallet .heart { color:#fff }.b .filter { display:flex; gap:8px; overflow:auto; margin:19px 0 }.pill { border:1px solid #ded8ed; background:#fff; border-radius:99px; padding:8px 12px; white-space:nowrap }.pill.active { border-color:#6142d7; background:#ede8ff; color:#4c2cca }
+    /* Variant C — utility dashboard, location context */
+    .c { background:#f4f6f1 }.c h1 { font-size:30px; margin:0 }.location { background:#dce9d6; border-radius:18px; padding:13px; margin:17px 0 22px; font-size:14px }.location b { color:#376936 }
+    .route { min-height:140px; background:linear-gradient(130deg,#c9e2d2,#ecf0c8); border-radius:21px; padding:16px; overflow:hidden }.map-lines { height:58px; margin-top:12px; background:linear-gradient(25deg,transparent 45%,#f9fbf0 46% 52%,transparent 53%),linear-gradient(148deg,transparent 41%,#a9c9b0 42% 48%,transparent 49%); border-radius:12px }
+    .c .list-card { background:#fff; display:flex; align-items:center; gap:12px; padding:14px; border-bottom:1px solid var(--line) }.c .list-card:first-child { border-radius:18px 18px 0 0 }.c .list-card:last-child { border:0; border-radius:0 0 18px 18px }.c .list-card .code { margin:2px 0 0; font-size:12px }.distance { margin-left:auto; color:#4b7948; font-size:12px; font-weight:700 }
+    /* Shared prototype-only switcher */
+    .switcher { position:fixed; z-index:2; left:50%; bottom:78px; transform:translateX(-50%); display:flex; align-items:center; gap:10px; padding:7px 10px; color:#fff; background:#17181be8; border:1px solid #ffffff30; border-radius:999px; box-shadow:0 6px 20px #0004; backdrop-filter:blur(10px) }.switcher button { border:0; color:#fff; background:transparent; padding:5px 9px; font-size:20px }.switcher span { min-width:106px; text-align:center; font-size:12px; font-weight:700 }
+    @media (min-width:700px) { body { padding:24px }.phone { min-height:calc(100vh - 48px); border-radius:32px; box-shadow:0 18px 50px #17231d29 } .add,.switcher { position:fixed } }
+  </style>
+</head>
+<body>
+  <main id="app"></main>
+  <script>
+    const cards = [
+      ['Лента','Л','5642  0098  3321','favourite'],
+      ['Магнит','М','9512  8824  0007','near'],
+      ['Спортмастер','S','0715  4300  1223',''],
+      ['Перекрёсток','П','9841  1200  8765','']
+    ];
+    const card = ([name, logo, code, kind], compact = false) => `<article class="card ${kind}"><div class="card-head"><span class="logo">${logo}</span><div><h3>${name}</h3>${compact ? '' : '<p class="small">Скидочная карточка</p>'}</div><span class="heart">${kind === 'favourite' ? '♥' : '♡'}</span></div><p class="code">${code}</p>${compact ? '' : '<div class="barcode"></div>'}</article>`;
+    const variantA = () => `<section class="phone a"><header class="top"><div><span class="eyebrow">Мой кошелёк</span><h1>Карточки<br>на каждый день</h1></div><button class="icon">⌕</button></header><div class="scan"><span class="scan-mark">⌁</span><div><strong>Показать код</strong><span class="small">Откройте любую карточку</span></div></div><div class="section"><div class="section-title"><b>Избранное</b><span class="small muted">1 карточка</span></div>${card(cards[0])}</div><div class="section"><div class="section-title"><b>Рядом с вами</b><span class="small muted">по расстоянию</span></div>${card(cards[1])}${card(cards[2])}</div><button class="add">＋ Добавить карточку</button></section>`;
+    const variantB = () => `<section class="phone b"><header class="top"><div><span class="eyebrow">4 карточки</span><h1>Ваши скидки</h1></div><button class="icon">⚙</button></header><nav class="filter"><button class="pill active">Все</button><button class="pill">♥ Избранные</button><button class="pill">Рядом</button><button class="pill">Недавние</button></nav><div class="wallet">${cards.map(c => card(c, true)).join('')}</div><div class="section"><p class="small muted">Сетка превращает карточки в привычный цифровой кошелёк. Код откроется по нажатию.</p></div><button class="add">＋ Новая карточка</button></section>`;
+    const listCard = ([name, logo, code], distance) => `<article class="list-card"><span class="logo">${logo}</span><div><strong>${name}</strong><p class="code">${code}</p></div>${distance ? `<span class="distance">${distance}</span>` : ''}</article>`;
+    const variantC = () => `<section class="phone c"><header class="top"><div><span class="eyebrow">Добрый вечер</span><h1>Скидочные карты</h1></div><button class="icon">⌕</button></header><div class="location">● <b>Геолокация включена</b><br><span class="muted">Магазины найдены в радиусе 5 км</span></div><div class="route"><span class="eyebrow">Ближайшая скидка</span><h3>Магнит · 350 м</h3><div class="map-lines"></div></div><div class="section"><div class="section-title"><b>Сначала показать</b><span class="small muted">избранные и рядом</span></div><div>${listCard(cards[0])}${listCard(cards[1], '350 м')}${listCard(cards[2], '1,2 км')}${listCard(cards[3])}</div></div><button class="add">＋ Добавить</button></section>`;
+    const variants = { A: ['A — Тактильный список', variantA], B: ['B — Цифровой кошелёк', variantB], C: ['C — Сначала маршрут', variantC] };
+    let key = new URLSearchParams(location.search).get('variant')?.toUpperCase() || 'A';
+    if (!variants[key]) key = 'A';
+    function render() {
+      document.querySelector('#app').innerHTML = variants[key][1]() + `<aside class="switcher"><button aria-label="Предыдущий вариант" onclick="move(-1)">←</button><span>${variants[key][0]}</span><button aria-label="Следующий вариант" onclick="move(1)">→</button></aside>`;
+      history.replaceState({}, '', `?variant=${key}`);
+    }
+    function move(direction) { const keys = Object.keys(variants); key = keys[(keys.indexOf(key) + direction + keys.length) % keys.length]; render(); }
+    addEventListener('keydown', event => { if (!['INPUT','TEXTAREA'].includes(document.activeElement.tagName) && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) move(event.key === 'ArrowLeft' ? -1 : 1); });
+    render();
+  </script>
+</body>
+</html>
