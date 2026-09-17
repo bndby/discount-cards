@@ -1,0 +1,96 @@
+import i18n from 'i18next';
+import {initReactI18next} from 'react-i18next';
+
+const resources = {
+  ru: {
+    translation: {
+      common: {
+        cancel: 'Отменить',
+        delete: 'Удалить',
+        edit: 'Редактировать',
+        save: 'Сохранить',
+        settings: 'Открыть настройки',
+        notSave: 'Не сохранять',
+      },
+      home: {
+        eyebrow: 'Мой кошелёк',
+        title: 'Карточки\nна каждый день',
+        empty: 'Добавьте скидочную карточку, чтобы нужный код всегда был под рукой.',
+        add: 'Добавить карточку',
+        favorite: 'Избранное',
+        others: 'Все карточки',
+        geoDenied: 'Без геолокации карточки отсортированы по частоте.',
+      },
+      card: {
+        newTitle: 'Новая карточка',
+        editTitle: 'Редактирование',
+        otherBrand: 'Другой бренд',
+        brand: 'Бренд',
+        brandName: 'Название бренда',
+        searchBrand: 'Поиск бренда',
+        code: 'Код карточки',
+        codeType: 'Тип кода',
+        color: 'Свой цвет',
+        favorite: 'Избранная карточка',
+        scan: 'Сканировать',
+        addPhoto: 'Добавить фото',
+        takePhoto: 'Снять фото',
+        choosePhoto: 'Выбрать фото',
+        replacePhoto: 'Заменить фото',
+        removePhoto: 'Удалить фото',
+        cameraDenied: 'Доступ к камере запрещён. Разрешите его в системных настройках.',
+        duplicate: 'Такой код уже есть. Можно открыть существующую карточку или всё равно сохранить.',
+        openDuplicate: 'Открыть существующую',
+        saved: 'Карточка сохранена',
+        deleted: 'Карточка и фотографии удалены',
+        deleteConfirm: 'Удалить код и фотографии с устройства без возможности отмены?',
+        discardConfirm: 'Не сохранять изменения?',
+        routeUnavailable: 'Маршрут до магазина сейчас недоступен',
+        renderUnavailable: 'Этот тип кода не удалось отрисовать. Покажите текстовое значение.',
+        increaseBrightness: 'Повысить яркость',
+        walking: 'Пешком · {{minutes}} мин',
+        driving: 'На автомобиле · {{minutes}} мин',
+        walkingOpen: 'Открыть пеший маршрут',
+        drivingOpen: 'Открыть автомобильный маршрут',
+        validation: {
+          brand: 'Выберите каталожный бренд или введите произвольный',
+          code: 'Введите код карточки',
+          photos: 'Можно прикрепить не больше двух фотографий',
+        },
+      },
+      scanner: {
+        title: 'Сканирование',
+        permission: 'Разрешите доступ к камере, чтобы сканировать код.',
+        unavailable: 'Камера недоступна. Введите код вручную.',
+        unsupported: 'Этот тип кода не поддерживается. Попробуйте другой код.',
+        manual: 'Ввести вручную',
+        torch: 'Фонарик',
+      },
+      codeTypes: {
+        ean13: 'EAN-13',
+        ean8: 'EAN-8',
+        upca: 'UPC-A',
+        upce: 'UPC-E',
+        code128: 'Code 128',
+        code39: 'Code 39',
+        code93: 'Code 93',
+        itf: 'ITF',
+        codabar: 'Codabar',
+        qr: 'QR',
+        datamatrix: 'Data Matrix',
+        pdf417: 'PDF417',
+        aztec: 'Aztec',
+        text: 'Только текст',
+      },
+    },
+  },
+};
+
+void i18n.use(initReactI18next).init({
+  resources,
+  lng: 'ru',
+  fallbackLng: 'ru',
+  interpolation: {escapeValue: false},
+});
+
+export default i18n;
